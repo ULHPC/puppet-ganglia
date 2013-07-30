@@ -41,6 +41,7 @@
 #
 class ganglia::node(
     $ensure = $ganglia::params::ensure,
+    $infiniband = 'no',
     $clustername,
     $owner,
     $latlong,
@@ -53,6 +54,10 @@ inherits ganglia::params
 
     if ! ($ensure in [ 'present', 'absent' ]) {
         fail("ganglia::node 'ensure' parameter must be set to either 'absent' or 'present'")
+    }
+
+    if ! ($infiniband in [ 'yes', 'no' ]) {
+        fail("ganglia::node 'infiniband' parameter must be set to either 'yes' or 'no'")
     }
 
     case $::operatingsystem {
@@ -101,6 +106,28 @@ class ganglia::node::common {
                        ],
     }
 
+    if ($ganglia::node::infiniband == 'yes')
+    {
+        # git clone
+        git::clone { 'git-clone-infiniband':
+            ensure    => $ganglia::node::ensure,
+            path      => $ganglia::params::ibtarget,
+            source    => $ganglia::params::ibgit,
+        }
+
+        package { $ganglia::params::ibmakedep:
+            ensure => $ganglia::node::ensure,
+            before => Git::Clone['git-clone-infiniband']
+        }
+        exec { 'compile':
+            path    => '/sbin:/usr/bin:/usr/sbin:/bin',
+            command => "make -C ${ganglia::params::ibtarget} ;",
+            unless  => "test -f ${ganglia::params::ibtarget}/modInfiniband.so",
+            require => Git::Clone['git-clone-infiniband'],
+            notify  => Service['ganglia-node']
+        }
+
+    }
 }
 
 

@@ -60,6 +60,15 @@ class ganglia::params {
         default                        => 'gmetad'
     }
 
+    $ibgit = 'http://github.com/ULHPC/ganglia_infiniband_module'
+    $ibtarget = '/root/ganglia_infiniband_module'
+    $ibmakedep = $::operatingsystem ? {
+        /(?i-mx:ubuntu|debian)/        => ['gcc', 'libapr1-dev', 'libconfuse-dev',
+                                           'libexpat1-dev', 'libganglia1-dev'],
+        default                        => ['gcc', 'apr-devel', 'expat-devel',
+                                           'libconfuse-devel', 'ganglia-devel'],
+    } # + make, which is already defined in the generic module
+
     $configfile = $::operatingsystem ? {
         default => '/etc/ganglia/gmond.conf',
     }
