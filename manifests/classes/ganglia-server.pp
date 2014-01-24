@@ -89,6 +89,16 @@ class ganglia::server::common {
         require => Package['ganglia-webfrontend'],
     }
 
+    file { "${ganglia::params::webconfigfile}":
+        ensure  => "${ganglia::server::ensure}",
+        path    => "${ganglia::params::webconfigfile}",
+        owner   => "${ganglia::params::configfile_owner}",
+        group   => "${ganglia::params::configfile_group}",
+        mode    => "${ganglia::params::configfile_mode}",
+        content => template("ganglia/conf_default.php.erb"),
+        require => Package['ganglia-webfrontend'],
+    }
+
     service { 'ganglia-server':
         name       => "${ganglia::params::serverservicename}",
         enable     => true,
@@ -99,10 +109,36 @@ class ganglia::server::common {
                        ],
     }
 
-#    file { "${ganglia::params::apacheconfigfile}":
-#        ensure => 'link',
-#        target => "${apachetarget}/ganglia.conf",
-#    }
+#   file { "${ganglia::params::apacheconfigfile}":
+#       ensure => 'link',
+#       target => "${apachetarget}/ganglia.conf",
+#   }
+
+    # Disable unwanted features
+
+    $headertemplatefile = '/usr/share/ganglia-webfrontend/templates/default/header.tpl'
+    exec {
+     "sed -i '/tabs-autorotation/d' ${headertemplatefile}":
+       path    => '/usr/bin:/usr/sbin:/bin',
+       onlyif  => "grep 'tabs-autorotation' ${headertemplatefile}",
+       require => Package['ganglia-webfrontend'],
+    }
+    exec {
+     "sed -i '/Views<\/a><\/li>/d' ${headertemplatefile}":
+       path    => '/usr/bin:/usr/sbin:/bin',
+       onlyif  => "grep 'Views<\/a><\/li>' ${headertemplatefile}",
+       require => Package['ganglia-webfrontend'],
+    }
+
+    $cssfile = '/usr/share/ganglia-webfrontend/styles.css'
+    exec {
+     "echo '#tabs-autorotation{ visibility: hidden; }' >> ${cssfile}":
+       path    => '/usr/bin:/usr/sbin:/bin',
+       unless  => "grep 'tabs-autorotation' ${cssfile}",
+       require => Package['ganglia-webfrontend'],
+    }
+
+
 }
 
 
