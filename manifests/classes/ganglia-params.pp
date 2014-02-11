@@ -75,6 +75,9 @@ class ganglia::params {
     $serverconfigfile = $::operatingsystem ? {
         default => '/etc/ganglia/gmetad.conf',
     }
+    $webconfigfile = $::operatingsystem ? {
+        default => '/etc/ganglia-webfrontend/conf.php',
+    }
     $apacheconfigfile = $::operatingsystem ? {
         default => '/etc/ganglia-webfrontend/apache.conf',
     }
