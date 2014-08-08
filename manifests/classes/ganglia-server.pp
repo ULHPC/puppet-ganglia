@@ -124,9 +124,9 @@ class ganglia::server::common {
        require => Package['ganglia-webfrontend'],
     }
     exec {
-     "sed -i '/Views<\/a><\/li>/d' ${headertemplatefile}":
+     "sed -i '/Views<\\/a><\\/li>/d' ${headertemplatefile}":
        path    => '/usr/bin:/usr/sbin:/bin',
-       onlyif  => "grep 'Views<\/a><\/li>' ${headertemplatefile}",
+       onlyif  => "grep 'Views<\\/a><\\/li>' ${headertemplatefile}",
        require => Package['ganglia-webfrontend'],
     }
 
