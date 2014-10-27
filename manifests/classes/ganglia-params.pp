@@ -60,7 +60,7 @@ class ganglia::params {
         default                        => 'gmetad'
     }
 
-    $ibgit = 'http://github.com/ULHPC/ganglia_infiniband_module'
+    $ibgit = 'https://github.com/ULHPC/ganglia_infiniband_module'
     $ibtarget = '/root/ganglia_infiniband_module'
     $ibmakedep = $::operatingsystem ? {
         /(?i-mx:ubuntu|debian)/        => ['gcc', 'libapr1-dev', 'libconfuse-dev',
