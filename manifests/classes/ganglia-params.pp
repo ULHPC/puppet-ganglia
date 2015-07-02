@@ -60,6 +60,12 @@ class ganglia::params {
         default                        => 'gmetad'
     }
 
+    # ubuntu 12.10 and below didn't have a status command in the init script
+    if ! (($::operatingsystem == 'Ubuntu' and $::lsbmajdistrelease > '12') or
+          ($::operatingsystem == 'Debian' and $::lsbmajdistrelease != '7')) {
+        $gmond_status_command  = 'pgrep -u ganglia -f /usr/sbin/gmond'
+    }
+
     $ibgit = 'https://github.com/ULHPC/ganglia_infiniband_module'
     $ibtarget = '/root/ganglia_infiniband_module'
     $ibmakedep = $::operatingsystem ? {

@@ -96,10 +96,17 @@ class ganglia::node::common {
         require => Package['ganglia-monitor'],
     }
 
+    if ($ganglia::params::gmond_status_command) {
+      $hasstatus = false
+    } else {
+      $hasstatus = true
+    }
     service { 'ganglia-node':
         name       => "${ganglia::params::servicename}",
         enable     => true,
         ensure     => running,
+        hasstatus  => $hasstatus,
+        status     => "${ganglia::params::gmond_status_command}",
         require    => [
                        Package['ganglia-monitor'],
                        File["${ganglia::params::configfile}"]
