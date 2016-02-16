@@ -1,7 +1,7 @@
-# File::      <tt>ganglia-params.pp</tt>
-# Author::    Hyacinthe Cartiaux (hyacinthe.cartiaux@uni.lu)
-# Copyright:: Copyright (c) 2013 Hyacinthe Cartiaux
-# License::   GPLv3
+# File::      <tt>params.pp</tt>
+# Author::    S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team (hpc-sysadmins@uni.lu)
+# Copyright:: Copyright (c) 2016 S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team
+# License::   Gpl-3.0
 #
 # ------------------------------------------------------------------------------
 # = Class: ganglia::params
@@ -30,9 +30,9 @@ class ganglia::params {
     ###########################################
 
     # ensure the presence (or absence) of ganglia
-    $ensure = $ganglia_ensure ? {
+    $ensure = $::ganglia_ensure ? {
         ''      => 'present',
-        default => "${ganglia_ensure}"
+        default => $::ganglia_ensure
     }
 
     #### MODULE INTERNAL VARIABLES  #########
@@ -40,24 +40,24 @@ class ganglia::params {
     #######################################
     # ganglia packages
     $packagename = $::operatingsystem ? {
-         /(?i-mx:ubuntu|debian)/        => 'ganglia-monitor',
-         /(?i-mx:centos|fedora|redhat)/ => 'ganglia-gmond',
-         default => 'ganglia-monitor'
+      /(?i-mx:ubuntu|debian)/        => 'ganglia-monitor',
+      /(?i-mx:centos|fedora|redhat)/ => 'ganglia-gmond',
+      default => 'ganglia-monitor'
     }
     $serverpackagename = $::operatingsystem ? {
-         /(?i-mx:ubuntu|debian)/        => 'ganglia-webfrontend',
-         default => 'ganglia-webfrontend'
+      /(?i-mx:ubuntu|debian)/        => 'ganglia-webfrontend',
+      default => 'ganglia-webfrontend'
     }
 
     # ganglia associated services
     $servicename = $::operatingsystem ? {
-        /(?i-mx:ubuntu|debian)/        => 'ganglia-monitor',
-        /(?i-mx:centos|fedora|redhat)/ => 'gmond',
-        default                        => 'ganglia-monitor'
+      /(?i-mx:ubuntu|debian)/        => 'ganglia-monitor',
+      /(?i-mx:centos|fedora|redhat)/ => 'gmond',
+      default                        => 'ganglia-monitor'
     }
     $serverservicename = $::operatingsystem ? {
-        /(?i-mx:ubuntu|debian)/        => 'gmetad',
-        default                        => 'gmetad'
+      /(?i-mx:ubuntu|debian)/        => 'gmetad',
+      default                        => 'gmetad'
     }
 
     # ubuntu 12.10 and below didn't have a status command in the init script
@@ -69,10 +69,8 @@ class ganglia::params {
     $ibgit = 'https://github.com/ULHPC/ganglia_infiniband_module'
     $ibtarget = '/root/ganglia_infiniband_module'
     $ibmakedep = $::operatingsystem ? {
-        /(?i-mx:ubuntu|debian)/        => ['gcc', 'libapr1-dev', 'libconfuse-dev',
-                                           'libexpat1-dev', 'libganglia1-dev'],
-        default                        => ['gcc', 'apr-devel', 'expat-devel',
-                                           'libconfuse-devel', 'ganglia-devel'],
+        /(?i-mx:ubuntu|debian)/        => ['gcc', 'libapr1-dev', 'libconfuse-dev', 'libexpat1-dev', 'libganglia1-dev'],
+        default                        => ['gcc', 'apr-devel', 'expat-devel', 'libconfuse-devel', 'ganglia-devel'],
     } # + make, which is already defined in the generic module
 
     $configfile = $::operatingsystem ? {

@@ -80,7 +80,7 @@ modules {
     name = "sys_module"
     path = "modsys.so"
   }
-<% if infiniband = 'yes' -%>
+<% if infiniband == 'yes' -%>
   module {
     name = "ib_module"
     language = "C/C++"
@@ -336,7 +336,7 @@ collection_group {
   }
 }
 
-<% if infiniband = 'yes' -%>
+<% if infiniband == 'yes' -%>
 collection_group {
   collect_every = 20
   time_threshold = 60

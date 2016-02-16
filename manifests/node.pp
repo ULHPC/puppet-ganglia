@@ -1,7 +1,7 @@
-# File::      <tt>ganglia-node.pp</tt>
-# Author::    Hyacinthe Cartiaux (hyacinthe.cartiaux@uni.lu)
-# Copyright:: Copyright (c) 2013 Hyacinthe Cartiaux
-# License::   GPLv3
+# File::      <tt>node.pp</tt>
+# Author::    S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team (hpc-sysadmins@uni.lu)
+# Copyright:: Copyright (c) 2016 S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team
+# License::   Gpl-3.0
 #
 # ------------------------------------------------------------------------------
 # = Class: ganglia::node
@@ -64,7 +64,7 @@ inherits ganglia::params
         debian, ubuntu:         { include ganglia::node::debian }
         redhat, fedora, centos: { include ganglia::node::redhat }
         default: {
-            fail("Module $module_name is not supported on $operatingsystem")
+            fail("Module ${module_name} is not supported on $::{operatingsystem}")
         }
     }
 }
@@ -81,17 +81,17 @@ class ganglia::node::common {
     require ganglia::params
 
     package { 'ganglia-monitor':
-        ensure  => "${ganglia::node::ensure}",
-        name    => "${ganglia::params::packagename}",
+        ensure => $ganglia::node::ensure,
+        name   => $ganglia::params::packagename,
     }
 
     # Configuration file
-    file { "${ganglia::params::configfile}":
-        ensure  => "${ganglia::node::ensure}",
-        path    => "${ganglia::params::configfile}",
-        owner   => "${ganglia::params::configfile_owner}",
-        group   => "${ganglia::params::configfile_group}",
-        mode    => "${ganglia::params::configfile_mode}",
+    file { $ganglia::params::configfile:
+        ensure  => $ganglia::node::ensure,
+        path    => $ganglia::params::configfile,
+        owner   => $ganglia::params::configfile_owner,
+        group   => $ganglia::params::configfile_group,
+        mode    => $ganglia::params::configfile_mode,
         notify  => Service['ganglia-node'],
         require => Package['ganglia-monitor'],
     }
@@ -102,24 +102,24 @@ class ganglia::node::common {
       $hasstatus = true
     }
     service { 'ganglia-node':
-        name       => "${ganglia::params::servicename}",
-        enable     => true,
-        ensure     => running,
-        hasstatus  => $hasstatus,
-        status     => "${ganglia::params::gmond_status_command}",
-        require    => [
-                       Package['ganglia-monitor'],
-                       File["${ganglia::params::configfile}"]
-                       ],
+        ensure    => running,
+        name      => $ganglia::params::servicename,
+        enable    => true,
+        hasstatus => $hasstatus,
+        status    => $ganglia::params::gmond_status_command,
+        require   => [
+          Package['ganglia-monitor'],
+          File[$ganglia::params::configfile]
+        ],
     }
 
     if ($ganglia::node::infiniband == 'yes')
     {
         # git clone
         git::clone { 'git-clone-infiniband':
-            ensure    => $ganglia::node::ensure,
-            path      => $ganglia::params::ibtarget,
-            source    => $ganglia::params::ibgit,
+            ensure => $ganglia::node::ensure,
+            path   => $ganglia::params::ibtarget,
+            source => $ganglia::params::ibgit,
         }
 
         package { $ganglia::params::ibmakedep:
@@ -144,8 +144,8 @@ class ganglia::node::common {
 # Specialization class for Debian systems
 class ganglia::node::debian inherits ganglia::node::common {
 
-    File["${ganglia::params::configfile}"] {
-        content => template("ganglia/debian.gmond.conf.erb"),
+    File[$ganglia::params::configfile] {
+        content => template('ganglia/debian.gmond.conf.erb'),
     }
 
 }
@@ -156,8 +156,8 @@ class ganglia::node::debian inherits ganglia::node::common {
 # Specialization class for Redhat systems
 class ganglia::node::redhat inherits ganglia::node::common {
 
-    File["${ganglia::params::configfile}"] {
-        content => template("ganglia/redhat.gmond.conf.erb"),
+    File[$ganglia::params::configfile] {
+        content => template('ganglia/redhat.gmond.conf.erb'),
     }
 
 }

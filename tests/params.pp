@@ -15,7 +15,7 @@
 
 include 'ganglia::params'
 
-$names = ["ensure", "protocol", "port", "packagename"]
+$names = ['ensure', 'protocol', 'port', 'packagename']
 
 notice("ganglia::params::ensure = ${ganglia::params::ensure}")
 notice("ganglia::params::protocol = ${ganglia::params::protocol}")
