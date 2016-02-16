@@ -26,5 +26,24 @@
       ]
     }
   ],
-  "tags": ["ganglia", " monitoring"]
+  "tags": [
+    "ganglia",
+    " monitoring"
+  ],
+  "classes": [
+    "ganglia",
+    "ganglia::common::redhat",
+    "ganglia::node",
+    "ganglia::node::common",
+    "ganglia::node::debian",
+    "ganglia::node::redhat",
+    "ganglia::params",
+    "ganglia::server",
+    "ganglia::server::common",
+    "ganglia::server::debian",
+    "ganglia::server::redhat"
+  ],
+  "definitions": [
+
+  ]
 }
