@@ -56,7 +56,7 @@ class ganglia::node::common {
             path     => $ganglia::params::ibtarget,
             source   => $ganglia::params::ibgit,
         }
- 
+
         package { $ganglia::params::ibmakedep:
             ensure => $ganglia::node::ensure,
             before => Vcsrepo['git-clone-infiniband']
