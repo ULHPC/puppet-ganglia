@@ -1,0 +1,49 @@
+{
+  "name": "ULHPC/ganglia",
+  "version": "0.1.2",
+  "author": "S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team",
+  "mail": "hpc-sysadmins@uni.lu",
+  "summary": "Configure and manage Ganglia",
+  "description": "Configure and manage Ganglia",
+  "license": "GPL-3.0",
+  "source": "https://github.com/ULHPC/puppet-ganglia",
+  "docs_project": "ulhpc-puppet-ganglia",
+  "project_page": "https://github.com/ULHPC/puppet-ganglia",
+  "issues_url": "https://github.com/ULHPC/puppet-ganglia/issues",
+  "forge_url": "https://forge.puppetlabs.com/ULHPC/ganglia",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">=4.2.2 <5.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ],
+  "tags": [
+    "ganglia",
+    " monitoring"
+  ],
+  "classes": [
+    "ganglia",
+    "ganglia::common::redhat",
+    "ganglia::node",
+    "ganglia::node::common",
+    "ganglia::node::debian",
+    "ganglia::node::redhat",
+    "ganglia::params",
+    "ganglia::server",
+    "ganglia::server::common",
+    "ganglia::server::debian",
+    "ganglia::server::redhat"
+  ],
+  "definitions": [
+
+  ]
+}

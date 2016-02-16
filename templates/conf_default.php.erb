@@ -1,0 +1,48 @@
+<?php
+
+#
+# 'readonly': No authentication is required.  All users may view all resources.  No edits are allowed.
+#  'enabled': Guest users may view public clusters.  Login is required to make changes.
+#             An administrator must configure an authentication scheme and ACL rules.
+# 'disabled': Guest users may perform any actions, including edits.  No authentication is required.
+$conf['auth_system'] = 'readonly';
+
+#
+# The name of the directory in "./templates" which contains the
+# templates that you want to use. Templates are like a skin for the
+# site that can alter its look and feel.
+#
+$conf['template_name'] = "default";
+
+#
+# Default metric
+#
+$conf['default_metric'] = "load_one";
+
+#
+# remove the domainname from the FQDN hostnames in graphs
+# (to help with long hostnames in small charts)
+#
+$conf['strip_domainname'] = true;
+
+# Enable Zoom support on graphs
+$conf['zoom_support'] = true;
+
+
+# Different settings for Nagios
+$conf['nagios_cache_enabled'] = 0;
+
+# The API can serve up graphs, but the URLs should be fully qualified.
+# The default value is a hack to serve up the called hostname when
+# possible. It is best to define this manually.
+$conf['external_location'] = "http://localhost/ganglia-2";
+
+# Overlay events on graphs. Those are defined by specifying all the events
+# in events.json
+$conf['overlay_events'] = false;
+$conf['overlay_nagios_events'] = false;
+
+# Are heatmaps enabled
+$conf['heatmaps_enabled'] = 1;
+
+?>
