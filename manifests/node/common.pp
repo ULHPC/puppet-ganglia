@@ -50,12 +50,13 @@ class ganglia::node::common {
     if ($ganglia::node::infiniband == 'yes')
     {
         # git clone
-        git::clone { 'git-clone-infiniband':
-            ensure => $ganglia::node::ensure,
-            path   => $ganglia::params::ibtarget,
-            source => $ganglia::params::ibgit,
+        vcsrepo { 'git-clone-infiniband':
+            ensure   => $ganglia::node::ensure,
+            provider => git,
+            path     => $ganglia::params::ibtarget,
+            source   => $ganglia::params::ibgit,
         }
-
+ 
         package { $ganglia::params::ibmakedep:
             ensure => $ganglia::node::ensure,
             before => Git::Clone['git-clone-infiniband']
