@@ -7,4 +7,11 @@
 # = Class: ganglia::server::debian
 #
 # Specialization class for Debian systems
-class ganglia::server::debian inherits ganglia::server::common { }
+class ganglia::server::debian inherits ganglia::server::common {
+
+  # Ensure package lists are updated before attempting package installation.
+  exec { 'apt-update':
+    command => '/usr/bin/apt-get update'
+  }
+  Exec['apt-update'] -> Package <| |>
+}

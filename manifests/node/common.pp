@@ -11,7 +11,7 @@
 # Note: respect the Naming standard provided here[http://projects.puppetlabs.com/projects/puppet/wiki/Module_Standards]
 class ganglia::node::common {
 
-    # Load the variables used in this module. Check the ganglia-params.pp file
+    # Load the variables used in this module. Check the ganglia/params.pp file
     require ganglia::params
 
     package { 'ganglia-monitor':
@@ -50,21 +50,22 @@ class ganglia::node::common {
     if ($ganglia::node::infiniband == 'yes')
     {
         # git clone
-        git::clone { 'git-clone-infiniband':
-            ensure => $ganglia::node::ensure,
-            path   => $ganglia::params::ibtarget,
-            source => $ganglia::params::ibgit,
+        vcsrepo { 'git-clone-infiniband':
+            ensure   => $ganglia::node::ensure,
+            provider => git,
+            path     => $ganglia::params::ibtarget,
+            source   => $ganglia::params::ibgit,
         }
 
         package { $ganglia::params::ibmakedep:
             ensure => $ganglia::node::ensure,
-            before => Git::Clone['git-clone-infiniband']
+            before => Vcsrepo['git-clone-infiniband']
         }
         exec { 'compile':
             path    => '/sbin:/usr/bin:/usr/sbin:/bin',
             command => "make -C ${ganglia::params::ibtarget} ;",
             unless  => "test -f ${ganglia::params::ibtarget}/modInfiniband.so",
-            require => Git::Clone['git-clone-infiniband'],
+            require => Vcsrepo['git-clone-infiniband'],
             notify  => Service['ganglia-node']
         }
 
