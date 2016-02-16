@@ -9,6 +9,12 @@
 # Specialization class for Debian systems
 class ganglia::node::debian inherits ganglia::node::common {
 
+    # Ensure package lists are updated before attempting package installation.
+    exec { 'apt-update':
+      command => '/usr/bin/apt-get update'
+    }
+    Exec['apt-update'] -> Package <| |>
+
     File[$ganglia::params::configfile] {
         content => template('ganglia/debian.gmond.conf.erb'),
     }
