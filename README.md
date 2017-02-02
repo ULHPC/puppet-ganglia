@@ -9,7 +9,7 @@
 
 Configure and manage Ganglia
 
-      Copyright (c) 2016 S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team <hpc-sysadmins@uni.lu>
+      Copyright (c) 2017 S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team <hpc-sysadmins@uni.lu>
       
 
 | [Project Page](https://github.com/ULHPC/puppet-ganglia) | [Sources](https://github.com/ULHPC/puppet-ganglia) | [Documentation](https://ulhpc-puppet-ganglia.readthedocs.org/en/latest/) | [Issues](https://github.com/ULHPC/puppet-ganglia/issues) |
@@ -21,6 +21,17 @@ Configure and manage Ganglia.
 This module implements the following elements: 
 
 * __Puppet classes__:
+    - `ganglia` 
+    - `ganglia::common::redhat` 
+    - `ganglia::node` 
+    - `ganglia::node::common` 
+    - `ganglia::node::debian` 
+    - `ganglia::node::redhat` 
+    - `ganglia::params` 
+    - `ganglia::server` 
+    - `ganglia::server::common` 
+    - `ganglia::server::debian` 
+    - `ganglia::server::redhat` 
 
 * __Puppet definitions__: 
 
@@ -35,6 +46,8 @@ See `docs/contributing.md` for more details on the steps you shall follow to hav
 See [`metadata.json`](metadata.json). In particular, this module depends on 
 
 * [puppetlabs/stdlib](https://forge.puppetlabs.com/puppetlabs/stdlib)
+* [puppetlabs/vcsrepo](https://forge.puppetlabs.com/puppetlabs/vcsrepo)
+* [ULHPC/sudo](https://forge.puppetlabs.com/ULHPC/sudo)
 
 ## Overview and Usage
 
@@ -51,6 +64,13 @@ Use it as follows:
 
 See also [`tests/init.pp`](tests/init.pp)
 
+### Class `ganglia::node`
+
+See [`tests/node.pp`](tests/node.pp)
+### Class `ganglia::node::debian`
+
+See [`tests/server.pp`](tests/server.pp)
+### Class `ganglia::server::debian`
 
 
 ## Librarian-Puppet / R10K Setup
