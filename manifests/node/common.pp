@@ -35,8 +35,13 @@ class ganglia::node::common {
     } else {
       $hasstatus = true
     }
+    if ($ganglia::node::ensure == 'present') {
+      $servicestatus = 'running'
+    } else {
+      $servicestatus = 'stopped'
+    }
     service { 'ganglia-node':
-        ensure    => running,
+        ensure    => $servicestatus,
         name      => $ganglia::params::servicename,
         enable    => true,
         hasstatus => $hasstatus,
@@ -66,7 +71,14 @@ class ganglia::node::common {
             command => "make -C ${ganglia::params::ibtarget} ;",
             unless  => "test -f ${ganglia::params::ibtarget}/modInfiniband.so",
             require => Vcsrepo['git-clone-infiniband'],
-            notify  => Service['ganglia-node']
+            notify  => Service['ganglia-node'],
+            onlyif  => "test -d ${ganglia::params::ibtarget}"
+        }
+
+        include sudo
+        sudo::directive {'ganglia':
+            ensure  => $ganglia::node::ensure,
+            content => "ganglia ALL=(ALL) NOPASSWD: /usr/sbin/perfquery -R\n",
         }
 
     }
