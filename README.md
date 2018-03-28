@@ -9,7 +9,7 @@
 
 Configure and manage Ganglia
 
-      Copyright (c) 2017 S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team <hpc-sysadmins@uni.lu>
+      Copyright (c) 2018 UL HPC Team <hpc-sysadmins@uni.lu>
       
 
 | [Project Page](https://github.com/ULHPC/puppet-ganglia) | [Sources](https://github.com/ULHPC/puppet-ganglia) | [Documentation](https://ulhpc-puppet-ganglia.readthedocs.org/en/latest/) | [Issues](https://github.com/ULHPC/puppet-ganglia/issues) |
@@ -22,7 +22,6 @@ This module implements the following elements:
 
 * __Puppet classes__:
     - `ganglia` 
-    - `ganglia::common::redhat` 
     - `ganglia::node` 
     - `ganglia::node::common` 
     - `ganglia::node::debian` 
@@ -69,8 +68,19 @@ See also [`tests/init.pp`](tests/init.pp)
 See [`tests/node.pp`](tests/node.pp)
 ### Class `ganglia::node::debian`
 
+See [`tests/node/debian.pp`](tests/node/debian.pp)
+### Class `ganglia::node::redhat`
+
+See [`tests/node/redhat.pp`](tests/node/redhat.pp)
+### Class `ganglia::server`
+
 See [`tests/server.pp`](tests/server.pp)
 ### Class `ganglia::server::debian`
+
+See [`tests/server/debian.pp`](tests/server/debian.pp)
+### Class `ganglia::server::redhat`
+
+See [`tests/server/redhat.pp`](tests/server/redhat.pp)
 
 
 ## Librarian-Puppet / R10K Setup
