@@ -16,5 +16,13 @@
 #      sudo puppet apply -t /vagrant/tests/init.pp
 #
 node default {
-    include ganglia
+    class { '::ganglia::node':
+        ensure      => 'present',
+        clustername => 'IRIS',
+        infiniband  => 'yes',
+        owner       => 'ULHPC',
+        latlong     => 'N49.50 E5.94',
+        url         => 'https://hpc.uni.lu',
+        location    => 'Luxembourg'
+    }
 }

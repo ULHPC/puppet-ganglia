@@ -12,7 +12,7 @@
 class ganglia::node::common {
 
     # Load the variables used in this module. Check the ganglia/params.pp file
-    require ganglia::params
+    require ::ganglia::params
 
     package { 'ganglia-monitor':
         ensure => $ganglia::node::ensure,
@@ -37,13 +37,15 @@ class ganglia::node::common {
     }
     if ($ganglia::node::ensure == 'present') {
       $servicestatus = 'running'
+      $serviceenable = true
     } else {
       $servicestatus = 'stopped'
+      $serviceenable = false
     }
     service { 'ganglia-node':
         ensure    => $servicestatus,
+        enable    => $serviceenable,
         name      => $ganglia::params::servicename,
-        enable    => true,
         hasstatus => $hasstatus,
         status    => $ganglia::params::gmond_status_command,
         require   => [
@@ -64,7 +66,7 @@ class ganglia::node::common {
 
         package { $ganglia::params::ibmakedep:
             ensure => $ganglia::node::ensure,
-            before => Vcsrepo['git-clone-infiniband']
+            before => Vcsrepo['git-clone-infiniband'],
         }
         exec { 'compile':
             path    => '/sbin:/usr/bin:/usr/sbin:/bin',
@@ -72,10 +74,10 @@ class ganglia::node::common {
             unless  => "test -f ${ganglia::params::ibtarget}/modInfiniband.so",
             require => Vcsrepo['git-clone-infiniband'],
             notify  => Service['ganglia-node'],
-            onlyif  => "test -d ${ganglia::params::ibtarget}"
+            onlyif  => "test -d ${ganglia::params::ibtarget}",
         }
 
-        include sudo
+        include ::sudo
         sudo::directive {'ganglia':
             ensure  => $ganglia::node::ensure,
             content => "ganglia ALL=(ALL) NOPASSWD: /usr/sbin/perfquery -R\n",

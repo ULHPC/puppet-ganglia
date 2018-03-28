@@ -40,10 +40,10 @@
 # [Remember: No empty lines between comments and class definition]
 #
 class ganglia::server(
-    $ensure = $ganglia::params::ensure,
     $clustername,
     $nodemin,
-    $nodemax
+    $nodemax,
+    $ensure = $ganglia::params::ensure
 )
 inherits ganglia::params
 {
@@ -54,9 +54,10 @@ inherits ganglia::params
     }
 
     case $::operatingsystem {
-        debian, ubuntu:         { include ganglia::server::debian }
+        'debian', 'ubuntu':           { include ::ganglia::server::debian }
+        'redhat', 'fedora', 'centos': { include ::ganglia::server::redhat }
         default: {
-            fail("Module ${module_name} is not supported on $::{operatingsystem}")
+            fail("Module ${module_name} is not supported on ${::operatingsystem}")
         }
     }
 }

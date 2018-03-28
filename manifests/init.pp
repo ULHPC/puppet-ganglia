@@ -1,20 +1,20 @@
-# File::      <tt>init.pp</tt>
+# File::      <tt>node.pp</tt>
 # Author::    S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team (hpc-sysadmins@uni.lu)
 # Copyright:: Copyright (c) 2016 S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team
 # License::   Gpl-3.0
 #
 # ------------------------------------------------------------------------------
-# = Class: ganglia
+# = Class: ganglia::node
 #
-# Configure and manage Ganglia
+# Configure and manage ganglia::node
 #
 # == Parameters:
 #
-# $ensure:: *Default*: 'present'. Ensure the presence (or absence) of ganglia
+# $ensure:: *Default*: 'present'. Ensure the presence (or absence) of ganglia::node
 #
 # == Actions:
 #
-# Install and configure ganglia
+# Install and configure ganglia::node
 #
 # == Requires:
 #
@@ -22,12 +22,12 @@
 #
 # == Sample Usage:
 #
-#     include 'ganglia'
+#     import ganglia::node
 #
 # You can then specialize the various aspects of the configuration,
 # for instance:
 #
-#         class { 'ganglia':
+#         class { 'ganglia::node':
 #             ensure => 'present'
 #         }
 #
@@ -39,15 +39,33 @@
 #
 # [Remember: No empty lines between comments and class definition]
 #
-class ganglia(
-    $ensure = $ganglia::params::ensure
+class ganglia::node(
+    $clustername,
+    $owner,
+    $latlong,
+    $url,
+    $location,
+    $ensure        = $ganglia::params::ensure,
+    $infiniband    = 'no'
 )
 inherits ganglia::params
 {
-    info ("Configuring ganglia (with ensure = ${ensure})")
+    info ("Configuring ganglia::node (with ensure = ${ensure})")
 
     if ! ($ensure in [ 'present', 'absent' ]) {
-        fail("ganglia 'ensure' parameter must be set to either 'absent' or 'present'")
+        fail("ganglia::node 'ensure' parameter must be set to either 'absent' or 'present'")
     }
 
+    if ! ($infiniband in [ 'yes', 'no' ]) {
+        fail("ganglia::node 'infiniband' parameter must be set to either 'yes' or 'no'")
+    }
+
+    case $::operatingsystem {
+        'debian', 'ubuntu':         { include ::ganglia::node::debian }
+        'redhat', 'fedora', 'centos': { include ::ganglia::node::redhat }
+        default: {
+            fail("Module ${module_name} is not supported on ${::operatingsystem}")
+        }
+    }
 }
+

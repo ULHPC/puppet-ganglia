@@ -12,7 +12,7 @@
 class ganglia::server::common {
 
     # Load the variables used in this module. Check the ganglia-params.pp file
-    require ganglia::params
+    require ::ganglia::params
 
     package { 'ganglia-webfrontend':
         ensure => $ganglia::server::ensure,
@@ -41,10 +41,17 @@ class ganglia::server::common {
         require => Package['ganglia-webfrontend'],
     }
 
+    if ($ganglia::server::ensure == 'present') {
+      $servicestatus = 'running'
+      $serviceenable = true
+    } else {
+      $servicestatus = 'stopped'
+      $serviceenable = false
+    }
     service { 'ganglia-server':
-        ensure  => running,
+        ensure  => $servicestatus,
+        enable  => $serviceenable,
         name    => $ganglia::params::serverservicename,
-        enable  => true,
         require => [
           Package['ganglia-webfrontend'],
           File[$ganglia::params::serverconfigfile]
@@ -58,28 +65,27 @@ class ganglia::server::common {
 
     # Disable unwanted features
 
-    $headertemplatefile = '/usr/share/ganglia-webfrontend/templates/default/header.tpl'
-    exec {
-      "sed -i '/tabs-autorotation/d' ${headertemplatefile}":
-      path    => '/usr/bin:/usr/sbin:/bin',
-      onlyif  => "grep 'tabs-autorotation' ${headertemplatefile}",
-      require => Package['ganglia-webfrontend'],
-    }
-    exec {
-      "sed -i '/Views<\\/a><\\/li>/d' ${headertemplatefile}":
-      path    => '/usr/bin:/usr/sbin:/bin',
-      onlyif  => "grep 'Views<\\/a><\\/li>' ${headertemplatefile}",
-      require => Package['ganglia-webfrontend'],
-    }
+    if ($ganglia::server::ensure == 'present') {
+        exec {
+          "sed -i '/tabs-autorotation/d' ${ganglia::params::headertemplatefile}":
+          path    => '/usr/bin:/usr/sbin:/bin',
+          onlyif  => "grep 'tabs-autorotation' ${ganglia::params::headertemplatefile}",
+          require => Package['ganglia-webfrontend'],
+        }
+        exec {
+          "sed -i '/Views<\\/a><\\/li>/d' ${ganglia::params::headertemplatefile}":
+          path    => '/usr/bin:/usr/sbin:/bin',
+          onlyif  => "grep 'Views<\\/a><\\/li>' ${ganglia::params::headertemplatefile}",
+          require => Package['ganglia-webfrontend'],
+        }
 
-    $cssfile = '/usr/share/ganglia-webfrontend/styles.css'
-    exec {
-      "echo '#tabs-autorotation{ visibility: hidden; }' >> ${cssfile}":
-      path    => '/usr/bin:/usr/sbin:/bin',
-      unless  => "grep 'tabs-autorotation' ${cssfile}",
-      require => Package['ganglia-webfrontend'],
+        exec {
+          "echo '#tabs-autorotation{ visibility: hidden; }' >> ${ganglia::params::cssfile}":
+          path    => '/usr/bin:/usr/sbin:/bin',
+          unless  => "grep 'tabs-autorotation' ${ganglia::params::cssfile}",
+          require => Package['ganglia-webfrontend'],
+        }
     }
-
 
 }
 

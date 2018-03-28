@@ -1,7 +1,7 @@
 {
   "name": "ULHPC/ganglia",
-  "version": "0.1.4",
-  "author": "S. Varrette, H. Cartiaux, V. Plugaru, S. Diehl aka. UL HPC Management Team",
+  "version": "0.1.5",
+  "author": "UL HPC Team",
   "mail": "hpc-sysadmins@uni.lu",
   "summary": "Configure and manage Ganglia",
   "description": "Configure and manage Ganglia",
@@ -32,6 +32,12 @@
         "6",
         "7"
       ]
+    },
+    {
+      "operatingsystem": "Centos",
+      "operatingsystemrelease": [
+        "7"
+      ]
     }
   ],
   "tags": [
@@ -39,8 +45,6 @@
     " monitoring"
   ],
   "classes": [
-    "ganglia",
-    "ganglia::common::redhat",
     "ganglia::node",
     "ganglia::node::common",
     "ganglia::node::debian",
