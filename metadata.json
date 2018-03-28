@@ -32,6 +32,12 @@
         "6",
         "7"
       ]
+    },
+    {
+      "operatingsystem": "Centos",
+      "operatingsystemrelease": [
+        "7"
+      ]
     }
   ],
   "tags": [
