@@ -45,7 +45,6 @@
     " monitoring"
   ],
   "classes": [
-    "ganglia",
     "ganglia::node",
     "ganglia::node::common",
     "ganglia::node::debian",
