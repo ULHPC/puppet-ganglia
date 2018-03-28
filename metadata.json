@@ -40,7 +40,6 @@
   ],
   "classes": [
     "ganglia",
-    "ganglia::common::redhat",
     "ganglia::node",
     "ganglia::node::common",
     "ganglia::node::debian",
