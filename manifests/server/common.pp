@@ -12,7 +12,7 @@
 class ganglia::server::common {
 
     # Load the variables used in this module. Check the ganglia-params.pp file
-    require ganglia::params
+    require ::ganglia::params
 
     package { 'ganglia-webfrontend':
         ensure => $ganglia::server::ensure,

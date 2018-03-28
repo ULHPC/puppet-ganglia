@@ -13,7 +13,7 @@
 #
 #
 
-include 'ganglia::params'
+include '::ganglia::params'
 
 $names = ['ensure', 'packagename', 'serverpackagename', 'servicename', 'serverservicename', 'gmond_status_command', 'ibgit', 'ibtarget', 'ibmakedep', 'configfile', 'serverconfigfile', 'webconfigfile', 'apacheconfigfile', 'apachetarget', 'configfile_mode', 'configfile_owner', 'configfile_group']
 

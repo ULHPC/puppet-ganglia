@@ -16,13 +16,13 @@
 #      sudo puppet apply -t /vagrant/tests/node.pp
 #
 node default {
-    class { 'ganglia::node':
+    class { '::ganglia::node':
         ensure      => 'present',
         infiniband  => 'yes',
         clustername => 'Zuul',
         owner       => 'CDC',
         latlong     => 'N49.50 E5.94',
         url         => 'https://hpc.uni.lu',
-        location    => 'Luxembourg'
+        location    => 'Luxembourg',
     }
 }

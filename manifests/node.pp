@@ -40,13 +40,13 @@
 # [Remember: No empty lines between comments and class definition]
 #
 class ganglia::node(
-    $ensure = $ganglia::params::ensure,
-    $infiniband = 'no',
     $clustername,
     $owner,
     $latlong,
     $url,
-    $location
+    $location,
+    $ensure        = $ganglia::params::ensure,
+    $infiniband    = 'no'
 )
 inherits ganglia::params
 {
@@ -61,8 +61,8 @@ inherits ganglia::params
     }
 
     case $::operatingsystem {
-        debian, ubuntu:         { include ganglia::node::debian }
-        redhat, fedora, centos: { include ganglia::node::redhat }
+        'debian', 'ubuntu':         { include ::ganglia::node::debian }
+        'redhat', 'fedora', 'centos': { include ::ganglia::node::redhat }
         default: {
             fail("Module ${module_name} is not supported on $::{operatingsystem}")
         }

@@ -16,10 +16,10 @@
 #      sudo puppet apply -t /vagrant/tests/server.pp
 #
 node default {
-    class { 'ganglia::server':
+    class { '::ganglia::server':
         ensure      => 'present',
         clustername => 'Zuul',
         nodemin     => '1',
-        nodemax     => '42'
+        nodemax     => '42',
     }
 }

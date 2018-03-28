@@ -61,7 +61,7 @@ class ganglia::params {
     }
 
     # ubuntu 12.10 and below didn't have a status command in the init script
-    if ! (($::operatingsystem == 'Ubuntu' and $::lsbmajdistrelease > '12') or
+    if ! (($::operatingsystem == 'Ubuntu' and versioncmp($::lsbmajdistrelease, '12') > 0) or
           ($::operatingsystem == 'Debian' and $::lsbmajdistrelease != '7')) {
         $gmond_status_command  = 'pgrep -u ganglia -f /usr/sbin/gmond'
     }
