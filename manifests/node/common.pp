@@ -37,13 +37,15 @@ class ganglia::node::common {
     }
     if ($ganglia::node::ensure == 'present') {
       $servicestatus = 'running'
+      $serviceenable = true
     } else {
       $servicestatus = 'stopped'
+      $serviceenable = false
     }
     service { 'ganglia-node':
         ensure    => $servicestatus,
+        enable    => $serviceenable,
         name      => $ganglia::params::servicename,
-        enable    => true,
         hasstatus => $hasstatus,
         status    => $ganglia::params::gmond_status_command,
         require   => [

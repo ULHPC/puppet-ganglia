@@ -30,10 +30,7 @@ class ganglia::params {
     ###########################################
 
     # ensure the presence (or absence) of ganglia
-    $ensure = $::ganglia_ensure ? {
-        ''      => 'present',
-        default => $::ganglia_ensure
-    }
+    $ensure =  'present'
 
     #### MODULE INTERNAL VARIABLES  #########
     # (Modify to adapt to unsupported OSes)
@@ -46,6 +43,7 @@ class ganglia::params {
     }
     $serverpackagename = $::operatingsystem ? {
       /(?i-mx:ubuntu|debian)/        => 'ganglia-webfrontend',
+      /(?i-mx:centos|fedora|redhat)/ => 'ganglia-web',
       default => 'ganglia-webfrontend'
     }
 
@@ -80,7 +78,9 @@ class ganglia::params {
         default => '/etc/ganglia/gmetad.conf',
     }
     $webconfigfile = $::operatingsystem ? {
-        default => '/etc/ganglia-webfrontend/conf.php',
+      /(?i-mx:ubuntu|debian)/        => '/etc/ganglia-webfrontend/conf.php',
+      /(?i-mx:centos|fedora|redhat)/ => '/etc/ganglia/conf.php',
+      default => '/etc/ganglia-webfrontend/conf.php',
     }
     $apacheconfigfile = $::operatingsystem ? {
         default => '/etc/ganglia-webfrontend/apache.conf',
@@ -98,6 +98,16 @@ class ganglia::params {
         default => 'root',
     }
 
+    $headertemplatefile = $::operatingsystem ? {
+      /(?i-mx:ubuntu|debian)/        => '/usr/share/ganglia-webfrontend/templates/default/header.tpl',
+      /(?i-mx:centos|fedora|redhat)/ => '/usr/share/ganglia/templates/default/header.tpl',
+      default => '/usr/share/ganglia-webfrontend/templates/default/header.tpl',
+    }
+    $cssfile = $::operatingsystem ? {
+      /(?i-mx:ubuntu|debian)/        => '/usr/share/ganglia-webfrontend/styles.css',
+      /(?i-mx:centos|fedora|redhat)/ => '/usr/share/ganglia/styles.css',
+      default => '/usr/share/ganglia-webfrontend/styles.css',
+    }
 
 }
 

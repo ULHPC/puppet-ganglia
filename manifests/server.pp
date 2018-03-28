@@ -54,9 +54,10 @@ inherits ganglia::params
     }
 
     case $::operatingsystem {
-        'debian', 'ubuntu':         { include ::ganglia::server::debian }
+        'debian', 'ubuntu':           { include ::ganglia::server::debian }
+        'redhat', 'fedora', 'centos': { include ::ganglia::server::redhat }
         default: {
-            fail("Module ${module_name} is not supported on $::{operatingsystem}")
+            fail("Module ${module_name} is not supported on ${::operatingsystem}")
         }
     }
 }
