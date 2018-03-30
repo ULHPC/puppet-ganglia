@@ -32,6 +32,9 @@ class ganglia::params {
     # ensure the presence (or absence) of ganglia
     $ensure =  'present'
 
+    # External URL location of the ganglia server
+    $external_location = 'http://localhost/ganglia-2'
+
     #### MODULE INTERNAL VARIABLES  #########
     # (Modify to adapt to unsupported OSes)
     #######################################

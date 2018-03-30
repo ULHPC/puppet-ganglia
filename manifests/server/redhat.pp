@@ -11,7 +11,7 @@ class ganglia::server::redhat inherits ganglia::server::common {
 
   file{ '/var/lib/ganglia/rrds':
     owner => 'nobody',
-    group => 'nobody'
+    group => 'nobody',
   }
 
 }

@@ -18,14 +18,14 @@ globals {
  * of a <CLUSTER> tag.  If you do not specify a cluster tag, then all <HOSTS> will
  * NOT be wrapped inside of a <CLUSTER> tag. */
 cluster {
-  name = "<%= @clustername %>"
-  owner = "<%= @owner %>"
-  latlong = "<%= @latlong %>"
-  url = "<%= @url %>"
+  name = "<%= scope.lookupvar('ganglia::node::clustername') %>"
+  owner = "<%= scope.lookupvar('ganglia::node::owner') %>"
+  latlong = "<%= scope.lookupvar('ganglia::node::latlong') %>"
+  url = "<%= scope.lookupvar('ganglia::node::url') %>"
 }
 /* The host section describes attributes of the host, like the location */
 host {
-  location = "<%= @location %>"
+  location = "<%= scope.lookupvar('ganglia::node::location') %>"
 }
 
 udp_send_channel {
@@ -80,7 +80,7 @@ modules {
     name = "sys_module"
     path = "/usr/lib/ganglia/modsys.so"
   }
-<% if @infiniband == 'yes' -%>
+<% if scope.lookupvar('ganglia::node::infiniband') == 'yes' -%>
   module {
     name = "ib_module"
     language = "C/C++"
@@ -336,7 +336,7 @@ collection_group {
   }
 }
 
-<% if @infiniband == 'yes' -%>
+<% if scope.lookupvar('ganglia::node::infiniband') == 'yes' -%>
 collection_group {
   collect_every = 20
   time_threshold = 60
