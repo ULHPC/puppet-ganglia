@@ -35,7 +35,7 @@ $conf['nagios_cache_enabled'] = 0;
 # The API can serve up graphs, but the URLs should be fully qualified.
 # The default value is a hack to serve up the called hostname when
 # possible. It is best to define this manually.
-$conf['external_location'] = "http://localhost/ganglia-2";
+$conf['external_location'] = "<%= scope.lookupvar('ganglia::server::external_location') %>";
 
 # Overlay events on graphs. Those are defined by specifying all the events
 # in events.json

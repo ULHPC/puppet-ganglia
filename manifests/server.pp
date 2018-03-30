@@ -43,7 +43,8 @@ class ganglia::server(
     $clustername,
     $nodemin,
     $nodemax,
-    $ensure = $ganglia::params::ensure
+    $external_location = $ganglia::params::external_location,
+    $ensure            = $ganglia::params::ensure
 )
 inherits ganglia::params
 {

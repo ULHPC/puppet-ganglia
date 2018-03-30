@@ -17,9 +17,10 @@
 #
 node default {
     class { '::ganglia::server':
-        ensure      => 'present',
-        clustername => 'Zuul',
-        nodemin     => '1',
-        nodemax     => '42',
+        ensure            => 'present',
+        clustername       => 'Zuul',
+        nodemin           => '1',
+        nodemax           => '42',
+        external_location => 'http://localhost/ganglia',
     }
 }
