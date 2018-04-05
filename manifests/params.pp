@@ -32,6 +32,8 @@ class ganglia::params {
     # ensure the presence (or absence) of ganglia
     $ensure =  'present'
 
+    $gridname = ''
+
     # External URL location of the ganglia server
     $external_location = 'http://localhost/ganglia-2'
 
