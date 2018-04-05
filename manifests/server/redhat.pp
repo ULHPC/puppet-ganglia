@@ -7,11 +7,4 @@
 # = Class: ganglia::server::redhat
 #
 # Specialization class for Redhat systems
-class ganglia::server::redhat inherits ganglia::server::common {
-
-  file{ '/var/lib/ganglia/rrds':
-    owner => 'nobody',
-    group => 'nobody',
-  }
-
-}
+class ganglia::server::redhat inherits ganglia::server::common { }
