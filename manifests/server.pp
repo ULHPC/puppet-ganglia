@@ -43,6 +43,7 @@ class ganglia::server(
     $clustername,
     $nodemin,
     $nodemax,
+    $gridname          = $ganglia::params::gridname,
     $external_location = $ganglia::params::external_location,
     $ensure            = $ganglia::params::ensure
 )

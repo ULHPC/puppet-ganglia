@@ -70,6 +70,10 @@ data_source "<%= scope.lookupvar('ganglia::server::clustername') %>" <% for i in
 # tag with this name.
 # default: unspecified
 # gridname "MyGrid"
+<% if scope.lookupvar('ganglia::server::gridname') != '' -%>
+gridname "<%= scope.lookupvar('ganglia::server::gridname') %>"
+<% end -%>
+
 #
 #-------------------------------------------------------------------------------
 # The authority URL for this grid. Used by other gmetads to locate graphs
