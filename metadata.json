@@ -1,6 +1,6 @@
 {
   "name": "ULHPC/ganglia",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "author": "UL HPC Team",
   "mail": "hpc-sysadmins@uni.lu",
   "summary": "Configure and manage Ganglia",
