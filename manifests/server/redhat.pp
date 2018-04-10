@@ -7,4 +7,10 @@
 # = Class: ganglia::server::redhat
 #
 # Specialization class for Redhat systems
-class ganglia::server::redhat inherits ganglia::server::common { }
+class ganglia::server::redhat inherits ganglia::server::common {
+
+  exec { '/bin/cp -f /usr/share/ganglia/conf/default.json /var/lib/ganglia/conf/':
+    unless => '/bin/test -e /var/lib/ganglia/conf/default.json',
+  }
+
+}
